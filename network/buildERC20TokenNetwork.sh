@@ -251,7 +251,7 @@ CHANNEL_NAME="mychannel"
 COMPOSE_FILE=docker-compose-cli.yaml
 #
 COMPOSE_FILE_COUCH=docker-compose-couch.yaml
-# use golang as the default language for chaincode
+# use node as the default language for chaincode
 LANGUAGE=node
 # default image tag
 IMAGETAG="latest"

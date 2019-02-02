@@ -15,7 +15,7 @@ TIMEOUT="$4"
 VERBOSE="$5"
 : ${CHANNEL_NAME:="mychannel"}
 : ${DELAY:="3"}
-: ${LANGUAGE:="golang"}
+: ${LANGUAGE:="node"}
 : ${TIMEOUT:="10"}
 : ${VERBOSE:="false"}
 LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
@@ -82,8 +82,8 @@ installChaincode 0 1
 echo "Install chaincode on peer0.org2..."
 installChaincode 0 2
 
-# Instantiate chaincode on peer0.org2
-echo "Instantiating chaincode on peer0.org2..."
+# Instantiate chaincode on peer0.org1
+echo "Instantiating chaincode on peer0.org1..."
 instantiateChaincode 0 1
 
 echo
