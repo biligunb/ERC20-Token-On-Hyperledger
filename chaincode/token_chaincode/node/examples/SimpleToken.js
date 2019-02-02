@@ -43,36 +43,16 @@ class SimpleToken extends ERC20Detailed {
     const bufferedOwner = Utils.toBuffer(ownerMspId);
     const bufferedName = Utils.toBuffer(coinConfig.name);
     const bufferedSymbol = Utils.toBuffer(coinConfig.symbol);
+    const bufferedTotalSupply = Utils.toBuffer(coinConfig.totalSupply);
 
     try {
       await stub.putState("owner", bufferedOwner);
       await stub.putState("name", bufferedName);
       await stub.putState("symbol", bufferedSymbol);
+      await stub.putState("totalSupply", bufferedTotalSupply);
+      await stub.putState(ownerMspId, bufferedTotalSupply);
       return shim.success();
     } catch (error) {
-      return shim.error(error);
-    }
-  }
-
-  /**
-   * @dev Invoke Token Chaincode
-   */
-  async Invoke(stub) {
-    console.log("========= Token chaincode Invoke =========");
-    const ret = stub.getFunctionAndParameters();
-
-    const method = this[ret.fcn];
-    if (!method) {
-      console.error(`No method of name: ${ret.fcn} found`);
-      return shim.error();
-    }
-    console.log(`========= Calling Function ${ret.fcn} =========`);
-
-    try {
-      const payload = await method(stub, ret.params, this);
-      return shim.success(payload);
-    } catch (error) {
-      console.error(error);
       return shim.error(error);
     }
   }

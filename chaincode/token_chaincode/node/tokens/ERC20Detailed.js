@@ -1,5 +1,5 @@
 const shim = require("fabric-shim");
-const MintableToken = require("./MintableToken");
+const BurnableToken = require("./BurnableToken");
 const Validations = require("../helpers/validations");
 const Utils = require("../helpers/utils");
 
@@ -10,7 +10,7 @@ const ClientIdentity = shim.ClientIdentity;
  * @dev The decimals are only for visualization purposes.
  * All the operations are done using the smallest and indivisible token unit.
  */
-class ERC20Detailed extends MintableToken {
+class ERC20Detailed extends BurnableToken {
   /**
    * @dev Get name of token.
    */

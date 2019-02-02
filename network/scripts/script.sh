@@ -32,34 +32,34 @@ echo "Channel name : "$CHANNEL_NAME
 . scripts/utils.sh
 
 createChannel() {
-	setGlobals 0 1
+  setGlobals 0 1
 
-	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
+  if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
-		peer channel create -o orderer.techracers.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
-		res=$?
+    peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+    res=$?
                 set +x
-	else
-				set -x
-		peer channel create -o orderer.techracers.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
-		res=$?
-				set +x
-	fi
-	cat log.txt
-	verifyResult $res "Channel creation failed"
-	echo "===================== Channel '$CHANNEL_NAME' created ===================== "
-	echo
+  else
+        set -x
+    peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+    res=$?
+        set +x
+  fi
+  cat log.txt
+  verifyResult $res "Channel creation failed"
+  echo "===================== Channel '$CHANNEL_NAME' created ===================== "
+  echo
 }
 
 joinChannel () {
-	for org in 1 2; do
-	    for peer in 0 1; do
-		joinChannelWithRetry $peer $org
-		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
-		sleep $DELAY
-		echo
-	    done
-	done
+  for org in 1 2; do
+      for peer in 0 1; do
+    joinChannelWithRetry $peer $org
+    echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+    sleep $DELAY
+    echo
+      done
+  done
 }
 
 ## Create channel

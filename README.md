@@ -1,4 +1,4 @@
-# Techracers HyperLedger
+# HyperLedger
 
 This is an open source repository for writing simple, [ERC20](https://en.wikipedia.org/wiki/ERC-20) based token [Chaincode](https://hyperledger-fabric.readthedocs.io/en/release-1.2/chaincode.html) in HyperLedger, using Node.js.
 
@@ -96,7 +96,7 @@ docker logs <peer identity> // type peer and then tab to see your options
 docker logs <chaincode identity> // type dev and then tab to see your options
 ```
 
-> Note: For debugging you can access your chaincode and peers logs `docker logs <press TAB to see options>`; and If you don't see a container for chaincode (dev-peer0.org1.techracers.com-mycc-1.0) then there was a problem instantiating our token chaincode.
+> Note: For debugging you can access your chaincode and peers logs `docker logs <press TAB to see options>`; and If you don't see a container for chaincode (dev-peer0.org1.example.com-mycc-1.0) then there was a problem instantiating our token chaincode.
 
 ## Let's play with our token
 
@@ -206,19 +206,16 @@ Once you're done with the getter calls let's explore the setter functions provid
 
 ```sh
 echo $CORE_PEER_ADDRESS
-peer0.org1.techracers.com:7051
+peer0.org1.example.com:7051
 ```
 
 You can change to peer0, Org2 by running the following commands:
 
 ```sh
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/users/Admin@org2.techracers.com/msp
-
-export CORE_PEER_ADDRESS=peer0.org2.techracers.com:7051
-
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
-
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 ```
 
 Use a similar strategy for other peers.
@@ -228,13 +225,10 @@ Use a similar strategy for other peers.
 We assume your config is set to peer0 of org1, otherwise set it using the following commands:
 
 ```sh
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/users/Admin@org1.techracers.com/msp
-
-export CORE_PEER_ADDRESS=peer0.org1.techracers.com:7051
-
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
-
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 ```
 
 Now let's try to update our minting state to `true`. We need to specify the Orderer and the peers to satisfy our endorsement policy.
@@ -242,7 +236,7 @@ Now let's try to update our minting state to `true`. We need to specify the Orde
 > Note: If you're following this tutoria;l this will be your first invocation so it will take some time.
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["updateMintingState","true"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["updateMintingState","true"]}'
 
 2018-09-07 11:37:51.688 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -263,10 +257,10 @@ Error: endorsement failure during invoke. chaincode result: <nil>
 You can open another Terminal and check the error logs as follows:
 
 ```sh
-docker logs dev-peer0.org2.techracers.com-mycc-1.0
+docker logs dev-peer0.org2.example.com-mycc-1.0
 
 > token_chaincode@1.0.0 start /usr/local/src
-> node tokenChaincode.js "--peer.address" "peer0.org2.techracers.com:7052"
+> node stablecoin.js "--peer.address" "peer0.org2.example.com:7052"
 
 E0907 11:37:51.462891616      19 ssl_transport_security.cc:238] Could not get common name of subject fromcertificate.
 ========= Token chaincode Invoke =========
@@ -292,7 +286,7 @@ If you want to know more about other validations you can check the chaincode [he
 This function can be used to create/[mint](https://en.wikipedia.org/wiki/Mint_(facility)) tokens by the token owner. But `isMintingAllowed` should be set to `true`. Let's mint some tokens for `Org1MSP`. Make sure your config is set to Token Owner.
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["mint","Org1MSP", "100.2345"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["mint","Org1MSP", "100.2345"]}'
 
 2018-09-07 11:58:15.951 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -311,7 +305,7 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 Now we know that we have `100.2345` tokens registered under `Org1MSP`. Let's try to transfer `10` tokens to `Org2MSP`.  
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["transfer","Org2MSP", "10"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["transfer","Org2MSP", "10"]}'
 
 2018-09-07 12:09:37.441 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -330,7 +324,7 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 You can update the token name using this setter.
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["updateTokenName","TECH COIN"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["updateTokenName","TECH COIN"]}'
 
 2018-09-07 12:12:45.255 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -348,7 +342,7 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 You can update the token symbol using this setter.
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["updateTokenSymbol","TEC"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["updateTokenSymbol","TEC"]}'
 
 2018-09-07 12:15:11.390 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -366,7 +360,7 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 If you want some other MSPID to spend some tokens on your behalf you can use this setter.
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["updateApproval","Org2MSP", "30"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["updateApproval","Org2MSP", "30"]}'
 
 2018-09-07 12:18:19.068 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -384,20 +378,17 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 Once you have approved Org2 to transfer on behalf of Org1. First set the config in cli for Org2, so you can call functions on its behalf.
 
 ```sh
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/users/Admin@org2.techracers.com/msp
-
-export CORE_PEER_ADDRESS=peer0.org2.techracers.com:7051
-
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
-
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 ```
 Now lets transfer a float value to a non existent, but valid MSPID.
 
 > Note: Such MSPIDs can be created later and will have tokens preallocated to them, just like Ethereum addresses. 
 
 ```sh
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["transferFrom","Org1MSP", "UndefinedOrgMSP", "29.8989"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["transferFrom","Org1MSP", "UndefinedOrgMSP", "29.8989"]}'
 
 2018-09-07 12:26:14.920 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -406,11 +397,8 @@ Check it using:
 
 ```sh
 peer chaincode query -C mychannel -n mycc -c '{"Args":["getBalanceOf", "Org1MSP"]}'
-
 60.3356
-
 peer chaincode query -C mychannel -n mycc -c '{"Args":["getBalanceOf", "Org2MSP"]}'
-
 10
 ```
 
@@ -421,15 +409,12 @@ If you experience errors troubleshoot them using `docker log` and you can find t
 Lastly set your config back to Owner of token and try transfering Token Ownership.
 
 ```sh
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/users/Admin@org1.techracers.com/msp
-
-export CORE_PEER_ADDRESS=peer0.org1.techracers.com:7051
-
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt
-
-peer chaincode invoke -o orderer.techracers.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt --peerAddresses peer0.org2.techracers.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt -c '{"Args":["transferOwnership","Org2MSP"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses peer0.org2.example.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"Args":["transferOwnership","Org2MSP"]}'
 
 2018-09-07 12:33:40.267 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200
 ```
@@ -449,15 +434,6 @@ We used [Zepeelin Solidity's](https://github.com/OpenZeppelin/openzeppelin-solid
 - **helpers**  - Includes validations, checks which must be fulfilled during chaincode invocation or query; and utils for making the code `DRY`.
 - **examples** - A simple chaincode that demonstrate how to create a simple token using the basic chain codes provided in the repository.
 - **tokens** - A standard interface for fungible ERC20 tokens on HyperLedger.
-
-## Security
-Techracers is meant to provide secure and simple code, but please use common sense when doing anything that deals with real money! We take no responsibility for your implementation decisions and any security problem you might experience.
-
-The core development principles and strategies that Techracers is based on include: security in depth, simple and modular code, clarity-driven naming conventions, comprehensive unit testing, pre-and-post-condition sanity checks, code consistency, and regular audits.
-
-If you need further help, please email [support@techracers.com](mailto:support@techracers.com). If you want to work with us email at [sales@techracers.com](mailto:sales@techracers.com)
-
-> Note: We welcome recommendations and suggestions from the Open source community, If you think you can help us by [raising an issue](https://github.com/grepruby/ERC20-Token-On-Hyperledger/issues).
 
 ## License
 Code released under the [MIT License](https://github.com/grepruby/ERC20-Token-On-Hyperledger/blob/v1.0/LICENSE).
