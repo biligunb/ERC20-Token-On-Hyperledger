@@ -56,6 +56,29 @@ class SimpleToken extends ERC20Detailed {
       return shim.error(error);
     }
   }
+
+  /**
+   * @dev Invoke Token Chaincode
+   */
+  async Invoke(stub) {
+    console.log("========= Token chaincode Invoke =========");
+    const ret = stub.getFunctionAndParameters();
+
+    const method = this[ret.fcn];
+    if (!method) {
+      console.error(`No method of name: ${ret.fcn} found`);
+      return shim.error();
+    }
+    console.log(`========= Calling Function ${ret.fcn} =========`);
+
+    try {
+      const payload = await method(stub, ret.params, this);
+      return shim.success(payload);
+    } catch (error) {
+      console.error(error);
+      return shim.error(error);
+    }
+  }
 }
 
 module.exports = SimpleToken;
