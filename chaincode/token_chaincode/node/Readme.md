@@ -1,10 +1,10 @@
 # Info
-- stablecoin.js
+- chaincode.js
 - package.json
 - package-lock.json
 
 # Structure
-stablecoin.js
+chaincode.js
 - examples/SimpleToken
   - tokens/ERC20Detailed
     - tokens/BurnableToken
