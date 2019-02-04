@@ -68,12 +68,6 @@ const Validations = class {
       _throw("Minting is not Allowed");
     }
   }
-
-  static isBurningTrue(burningAllowed) {
-    if burningAllowed !== "true") {
-      _throw("Burning is not Allowed");
-    }
-  }
 };
 
 const _throw = msg => {
