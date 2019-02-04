@@ -1,19 +1,19 @@
 OrdererOrgs:
   - Name: Orderer
-    Domain: techracers.com
+    Domain: yourdomainname.com
     Specs:
       - Hostname: orderer
 
 PeerOrgs:
   - Name: Org1
-    Domain: org1.techracers.com
+    Domain: org1.yourdomainname.com
     EnableNodeOUs: true
     Template:
       Count: 2
     Users:
       Count: 1
   - Name: Org2
-    Domain: org2.techracers.com
+    Domain: org2.yourdomainname.com
     EnableNodeOUs: true
     Template:
       Count: 2

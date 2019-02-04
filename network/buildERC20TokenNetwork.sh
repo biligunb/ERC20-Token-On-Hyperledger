@@ -112,7 +112,7 @@ function networkDown() {
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
     rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
-    # remove the docker-compose yaml file that was customized to the techracers
+    # remove the docker-compose yaml file that was customized to the yourdomainname
     rm -f docker-compose-e2e.yaml
   fi
 }
@@ -136,11 +136,11 @@ function replacePrivateKey() {
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
   CURRENT_DIR=$PWD
-  cd crypto-config/peerOrganizations/org1.techracers.com/ca/
+  cd crypto-config/peerOrganizations/org1.yourdomainname.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  cd crypto-config/peerOrganizations/org2.techracers.com/ca/
+  cd crypto-config/peerOrganizations/org2.yourdomainname.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml

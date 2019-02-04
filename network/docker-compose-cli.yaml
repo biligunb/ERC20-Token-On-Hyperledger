@@ -1,64 +1,64 @@
 version: '2'
 
 volumes:
-  orderer.techracers.com:
-  peer0.org1.techracers.com:
-  peer1.org1.techracers.com:
-  peer0.org2.techracers.com:
-  peer1.org2.techracers.com:
+  orderer.yourdomainname.com:
+  peer0.org1.yourdomainname.com:
+  peer1.org1.yourdomainname.com:
+  peer0.org2.yourdomainname.com:
+  peer1.org2.yourdomainname.com:
 
 networks:
-  techracers:
+  yourdomainname:
 
 services:
 
-  orderer.techracers.com:
+  orderer.yourdomainname.com:
     extends:
       file:   base/docker-compose-base.yaml
-      service: orderer.techracers.com
-    container_name: orderer.techracers.com
+      service: orderer.yourdomainname.com
+    container_name: orderer.yourdomainname.com
     networks:
-      - techracers
+      - yourdomainname
 
-  peer0.org1.techracers.com:
-    container_name: peer0.org1.techracers.com
+  peer0.org1.yourdomainname.com:
+    container_name: peer0.org1.yourdomainname.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.org1.techracers.com
+      service: peer0.org1.yourdomainname.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true
     networks:
-      - techracers
+      - yourdomainname
 
-  peer1.org1.techracers.com:
-    container_name: peer1.org1.techracers.com
+  peer1.org1.yourdomainname.com:
+    container_name: peer1.org1.yourdomainname.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer1.org1.techracers.com
+      service: peer1.org1.yourdomainname.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true   
     networks:
-      - techracers
+      - yourdomainname
 
-  peer0.org2.techracers.com:
-    container_name: peer0.org2.techracers.com
+  peer0.org2.yourdomainname.com:
+    container_name: peer0.org2.yourdomainname.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.org2.techracers.com
+      service: peer0.org2.yourdomainname.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true
     networks:
-      - techracers
+      - yourdomainname
 
-  peer1.org2.techracers.com:
-    container_name: peer1.org2.techracers.com
+  peer1.org2.yourdomainname.com:
+    container_name: peer1.org2.yourdomainname.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer1.org2.techracers.com
+      service: peer1.org2.yourdomainname.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true
     networks:
-      - techracers
+      - yourdomainname
 
   cli:
     container_name: cli
@@ -70,13 +70,13 @@ services:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_LOGGING_LEVEL=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.org1.techracers.com:7051
+      - CORE_PEER_ADDRESS=peer0.org1.yourdomainname.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/users/Admin@org1.techracers.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/peers/peer0.org1.yourdomainname.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/peers/peer0.org1.yourdomainname.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/peers/peer0.org1.yourdomainname.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/users/Admin@org1.yourdomainname.com/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
@@ -86,10 +86,10 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - orderer.techracers.com
-      - peer0.org1.techracers.com
-      - peer1.org1.techracers.com
-      - peer0.org2.techracers.com
-      - peer1.org2.techracers.com
+      - orderer.yourdomainname.com
+      - peer0.org1.yourdomainname.com
+      - peer1.org1.yourdomainname.com
+      - peer0.org2.yourdomainname.com
+      - peer1.org2.yourdomainname.com
     networks:
-      - techracers
+      - yourdomainname

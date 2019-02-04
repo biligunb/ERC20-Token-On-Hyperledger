@@ -1,6 +1,6 @@
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem
-PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt
-PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yourdomainname.com/orderers/orderer.yourdomainname.com/msp/tlscacerts/tlsca.yourdomainname.com-cert.pem
+PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/peers/peer0.org1.yourdomainname.com/tls/ca.crt
+PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.yourdomainname.com/peers/peer0.org2.yourdomainname.com/tls/ca.crt
 
 # verify the result of the end-to-end test
 verifyResult() {
@@ -15,8 +15,8 @@ verifyResult() {
 # Set OrdererOrg.Admin globals
 setOrdererGlobals() {
   CORE_PEER_LOCALMSPID="OrdererMSP"
-  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem
-  CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/users/Admin@techracers.com/msp
+  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yourdomainname.com/orderers/orderer.yourdomainname.com/msp/tlscacerts/tlsca.yourdomainname.com-cert.pem
+  CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yourdomainname.com/users/Admin@yourdomainname.com/msp
 }
 
 setGlobals() {
@@ -25,20 +25,20 @@ setGlobals() {
   if [ $ORG -eq 1 ]; then
     CORE_PEER_LOCALMSPID="Org1MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/users/Admin@org1.techracers.com/msp
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.yourdomainname.com/users/Admin@org1.yourdomainname.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.org1.techracers.com:7051
+      CORE_PEER_ADDRESS=peer0.org1.yourdomainname.com:7051
     else
-      CORE_PEER_ADDRESS=peer1.org1.techracers.com:7051
+      CORE_PEER_ADDRESS=peer1.org1.yourdomainname.com:7051
     fi
   elif [ $ORG -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Org2MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/users/Admin@org2.techracers.com/msp
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.yourdomainname.com/users/Admin@org2.yourdomainname.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.org2.techracers.com:7051
+      CORE_PEER_ADDRESS=peer0.org2.yourdomainname.com:7051
     else
-      CORE_PEER_ADDRESS=peer1.org2.techracers.com:7051
+      CORE_PEER_ADDRESS=peer1.org2.yourdomainname.com:7051
     fi
   else
     echo "================== ERROR !!! ORG Unknown =================="
@@ -56,12 +56,12 @@ updateAnchorPeers() {
 
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer channel update -o orderer.techracers.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
+    peer channel update -o orderer.yourdomainname.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer channel update -o orderer.techracers.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+    peer channel update -o orderer.yourdomainname.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
     res=$?
     set +x
   fi
@@ -120,12 +120,12 @@ instantiateChaincode() {
   # the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode instantiate -o orderer.techracers.com:7050 -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","key","100"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.yourdomainname.com:7050 -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","key","100"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer chaincode instantiate -o orderer.techracers.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","{\"name\": \"Bebi Token\", \"symbol\": \"BBT\", \"totalSupply\": 999}"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.yourdomainname.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","{\"name\": \"Bebi Token\", \"symbol\": \"BBT\", \"totalSupply\": 999}"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
     res=$?
     set +x
   fi
@@ -146,11 +146,11 @@ fetchChannelConfig() {
   echo "Fetching the most recent configuration block for the channel"
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer channel fetch config config_block.pb -o orderer.techracers.com:7050 -c $CHANNEL --cafile $ORDERER_CA
+    peer channel fetch config config_block.pb -o orderer.yourdomainname.com:7050 -c $CHANNEL --cafile $ORDERER_CA
     set +x
   else
     set -x
-    peer channel fetch config config_block.pb -o orderer.techracers.com:7050 -c $CHANNEL --tls --cafile $ORDERER_CA
+    peer channel fetch config config_block.pb -o orderer.yourdomainname.com:7050 -c $CHANNEL --tls --cafile $ORDERER_CA
     set +x
   fi
 
