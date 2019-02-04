@@ -1,10 +1,10 @@
 # Info
-- chaincode.js
+- tokenChaincode.js
 - package.json
 - package-lock.json
 
 # Structure
-chaincode.js
+tokenChaincode.js
 - examples/SimpleToken
   - tokens/ERC20Detailed
     - tokens/BurnableToken
