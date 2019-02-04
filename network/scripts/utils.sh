@@ -100,7 +100,7 @@ installChaincode() {
   setGlobals $PEER $ORG
   VERSION=${3:-1.0}
   set -x
-  peer chaincode install -n mycc -v ${VERSION} -l ${LANGUAGE} -p ${CC_SRC_PATH} >&log.txt
+  peer chaincode install -n btoken -v ${VERSION} -l ${LANGUAGE} -p ${CC_SRC_PATH} >&log.txt
   res=$?
   set +x
   cat log.txt
@@ -120,15 +120,12 @@ instantiateChaincode() {
   # the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode instantiate -o orderer.techracers.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","key","100"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.techracers.com:7050 -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","key","100"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
     res=$?
     set +x
   else
     set -x
-    # peer chaincode instantiate -o orderer.techracers.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init", "{\"locations\":{\"longitude\":\"10.10\",\"latitude\":\"10.10\",\"altitude\":\"10.10\"},\"technology\":\"LTE\",\"technologyOptions\":\"Rel 13\",\"qualityOfService\":{\"totalAvailableBandwidth\":\"10\",\"peakUplinkSpeed\":\"20\"},\"accessControlType\":\"PLMN\",\"userIdentity\":\"user code of buyers users\",\"routingType\":\"LB\",\"metricOfValue\":{\"IMSI\":\"91\"},\"timePeriod\":{\"from\":\"some epoch time\",\"to\":\"some other epoch time > from\"},\"price\":{\"perGB\":\"10\"},\"pricingType\":\"one time\",\"recurringFrequency\":\"daily\",\"onetimeDuratrion\":\"1 year\",\"paymentTerms\":\"up-front\",\"prepaidAmount\":\"100\",\"topup amount\":\"100\",\"renewals\":\"5 days\",\"contractSeller\":\"seller ID\",\"contractBuyer\":\"buyer ID\",\"contractStatus\":\"inactive\",\"performanceReporting\":[\"number of unique users\",\"square feet utilized\"],\"reportingTolerance\":\"10\",\"reportingFrequency\":\"monthly\"}"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
-    # 
-    # 
-    peer chaincode instantiate -o orderer.techracers.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","{\"name\": \"Bebi Token\", \"symbol\": \"BBT\", \"totalSupply\": \"100000\"}"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.techracers.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n btoken -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","{\"name\": \"Bebi Token\", \"symbol\": \"BBT\", \"totalSupply\": \"100000\"}"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
     res=$?
     set +x
   fi

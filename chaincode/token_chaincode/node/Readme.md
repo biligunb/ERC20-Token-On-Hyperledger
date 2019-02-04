@@ -16,7 +16,7 @@ tokenChaincode.js
 # Token test
 Environment variable
 - export ORDERER=-o\ orderer.techracers.com:7050\ --tls\ true\ --cafile\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem
-export EXTRA=-o\ orderer.techracers.com:7050\ --tls\ true\ --cafile\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem\ --peerAddresses\ peer0.org1.techracers.com:7051\ --tlsRootCertFiles\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt\ --peerAddresses\ peer0.org2.techracers.com:7051\ --tlsRootCertFiles\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt
+- export EXTRA=-o\ orderer.techracers.com:7050\ --tls\ true\ --cafile\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/techracers.com/orderers/orderer.techracers.com/msp/tlscacerts/tlsca.techracers.com-cert.pem\ --peerAddresses\ peer0.org1.techracers.com:7051\ --tlsRootCertFiles\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.techracers.com/peers/peer0.org1.techracers.com/tls/ca.crt\ --peerAddresses\ peer0.org2.techracers.com:7051\ --tlsRootCertFiles\ /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.techracers.com/peers/peer0.org2.techracers.com/tls/ca.crt
 
 Chaincode install
 - peer chaincode install -l <language> -n <name> -v <version> -p </path/to/chaincode_directory>
