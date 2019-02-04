@@ -32,7 +32,11 @@ Chaincode query
 - peer chaincode query -C mychannel -n btoken -c '{"Args":["getName"]}'
 - peer chaincode query -C mychannel -n btoken -c '{"Args":["getSymbol"]}'
 - peer chaincode query -C mychannel -n btoken -c '{"Args":["getTotalSupply"]}'
+- peer chaincode query -C mychannel -n btoken -c '{"Args":["getBalanceOf", "Org1MSP"]}'
 
 Chaincode invoke
 - peer chaincode invoke -C <channel_name> -n <name> -c <arguments> $EXTRA
 - peer chaincode invoke -C mychannel -n btoken -c '{"Args":["updateTokenSymbol","AAA"]}' $EXTRA
+- peer chaincode invoke -C mychannel -n btoken -c '{"Args":["transfer","Org2MSP","512"]}' $EXTRA
+- peer chaincode invoke -C mychannel -n btoken -c '{"Args":["updateMintingState","true"]}' $EXTRA
+- peer chaincode invoke -C mychannel -n btoken -c '{"Args":["mint","Org1MSP", "2017"]}' $EXTRA
